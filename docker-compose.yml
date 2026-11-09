@@ -1,0 +1,10 @@
+services:
+  mail-mcp:
+    image: ghcr.io/mrzapp-lm/mail-mcp:latest
+    # Alternativ lokal bauen statt das fertige Image zu ziehen:
+    # build: .
+    container_name: mail-mcp
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "3000:3000"
