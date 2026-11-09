@@ -1,0 +1,11 @@
+# Test-Mailserver für den Smoke-Test (npm run smoke). Nicht für den Betrieb.
+services:
+  greenmail:
+    image: greenmail/standalone:2.1.3
+    environment:
+      GREENMAIL_OPTS: >-
+        -Dgreenmail.setup.test.all -Dgreenmail.hostname=0.0.0.0
+        -Dgreenmail.users=paul:secret@test.local -Dgreenmail.users.login=local_part
+    ports:
+      - "3025:3025"
+      - "3143:3143"
