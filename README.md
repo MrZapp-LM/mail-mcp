@@ -94,7 +94,7 @@ services:
       TZ: Europe/Berlin
 ```
 
-Links steht der Port auf dem NAS (hier 30993, weil 3000 auf TrueNAS oft schon belegt ist), rechts der Port im Container (immer 3000). Ist 30993 auch belegt, links einen anderen freien Port nehmen.
+Links steht der Port auf dem NAS (hier 30993, weil 3000 auf TrueNAS oft schon belegt ist), rechts der Port im Container (immer 3000). Ist 30993 auch belegt, links einen anderen freien Port nehmen, z. B. `"30994:3000"`. Rechts bleibt immer 3000.
 
 ### 3. Prüfen
 
