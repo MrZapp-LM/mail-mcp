@@ -52,8 +52,8 @@ Alles läuft über Umgebungsvariablen (Vorlage: [`.env.example`](.env.example)).
 
 Der Server verlangt den Token auf zwei Arten (eine reicht):
 
-- Header `Authorization: Bearer <MCP_AUTH_TOKEN>` an `http://<nas>:3000/mcp`
-- oder im Pfad: `http://<nas>:3000/mcp/<MCP_AUTH_TOKEN>` (für Clients, in denen man keine Header setzen kann, z. B. benutzerdefinierte Connectors in claude.ai)
+- Header `Authorization: Bearer <MCP_AUTH_TOKEN>` an `http://<nas>:30993/mcp`
+- oder im Pfad: `http://<nas>:30993/mcp/<MCP_AUTH_TOKEN>` (für Clients, in denen man keine Header setzen kann, z. B. benutzerdefinierte Connectors in claude.ai)
 
 Behandle die URL mit Token im Pfad wie ein Passwort.
 
@@ -79,7 +79,7 @@ services:
     image: ghcr.io/mrzapp-lm/mail-mcp:latest
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "30993:3000"
     environment:
       IMAP_HOST: imap.example.com
       IMAP_PORT: "993"
@@ -94,11 +94,11 @@ services:
       TZ: Europe/Berlin
 ```
 
-Ist Port 3000 auf dem NAS schon belegt, links einen anderen nehmen, z. B. `"3080:3000"`.
+Links steht der Port auf dem NAS (hier 30993, weil 3000 auf TrueNAS oft schon belegt ist), rechts der Port im Container (immer 3000). Ist 30993 auch belegt, links einen anderen freien Port nehmen.
 
 ### 3. Prüfen
 
-Im Browser: `http://<nas-ip>:3000/health?imap=1`
+Im Browser: `http://<nas-ip>:30993/health?imap=1`
 Erwartet: `{"status":"ok","version":"1.0.0","imap":"ok"}`. Steht dort ein Fehler, sagt die Meldung, was nicht passt (Login, Host, Port).
 
 Logs: in TrueNAS bei der App unter **Workloads → Logs**.
@@ -121,7 +121,7 @@ docker compose up -d
 ### Claude Code (im LAN oder per VPN/Tailscale)
 
 ```bash
-claude mcp add --transport http mail http://<nas-ip>:3000/mcp \
+claude mcp add --transport http mail http://<nas-ip>:30993/mcp \
   --header "Authorization: Bearer <MCP_AUTH_TOKEN>"
 ```
 
@@ -134,7 +134,7 @@ In `claude_desktop_config.json`:
   "mcpServers": {
     "mail": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "http://<nas-ip>:3000/mcp", "--allow-http",
+      "args": ["-y", "mcp-remote", "http://<nas-ip>:30993/mcp", "--allow-http",
                "--header", "Authorization: Bearer <MCP_AUTH_TOKEN>"]
     }
   }
